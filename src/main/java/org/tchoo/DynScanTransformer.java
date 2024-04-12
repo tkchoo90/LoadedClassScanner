@@ -8,13 +8,14 @@ import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DynScanTransformer implements ClassFileTransformer {
 
-    ClassLoadingInfo loadedClasses;
+    ClassLoadingInfo classLoadingInfo;
 
-    public DynScanTransformer(ClassLoadingInfo loadedClasses) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
-        this.loadedClasses = loadedClasses;
+    public DynScanTransformer(ClassLoadingInfo classLoadingInfo) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException {
+        this.classLoadingInfo = classLoadingInfo;
     }
 
     @Override
@@ -23,18 +24,20 @@ public class DynScanTransformer implements ClassFileTransformer {
 
         DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
-        loadedClasses.addStrings(className);
-
-        /******* UNCOMMENT TO SET PRINTSTREAM TO FILE, FOR PRINTING LOGS OF WEBLOGIC SERVERS *******/
+//        classLoadingInfo.addClassToBeanList(className);
+//        classLoadingInfo.addClassLoadingInfoToBeanList(className, protectionDomain.getCodeSource().getLocation().toString(), dateFormat.format(new Date()));
+        LoadedClassDetail loadedClass = new LoadedClassDetail(dateFormat.format(new Date()), className, protectionDomain.getCodeSource().getLocation().toString());
+        classLoadingInfo.addClassToBeanList(loadedClass.toString());
+//        /******* UNCOMMENT TO SET PRINTSTREAM TO FILE, FOR PRINTING LOGS OF WEBLOGIC SERVERS *******/
 //        try {
-//            File file = new File("/home/opc/WeblogicDynScan.txt");
+//            File file = new File("/home/opc/Dynscan.txt");
 //            FileOutputStream fos = new FileOutputStream(file);
 //            PrintStream ps = new PrintStream(fos);                  // Create new print stream for file.
 //            System.setOut(ps);                                      // Set file print stream.
 //        } catch (FileNotFoundException e) {
 //            throw new RuntimeException(e);
 //        }
-
+//
 //        System.out.println(String.format(
 //                "DYNSCAN LOG [%1$s]=> Classname: %2$s, path: [%3$s]",
 //                dateFormat.format(new Date()),
@@ -42,9 +45,9 @@ public class DynScanTransformer implements ClassFileTransformer {
 //                protectionDomain.getCodeSource().getLocation()
 //                )
 //        );
-
         return null;
     }
+
 
 
 
