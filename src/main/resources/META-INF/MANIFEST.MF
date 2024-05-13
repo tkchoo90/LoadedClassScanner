@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
 Premain-Class: org.tchoo.DynScanAgent
+Agent-Class: org.tchoo.DynScanAgent
