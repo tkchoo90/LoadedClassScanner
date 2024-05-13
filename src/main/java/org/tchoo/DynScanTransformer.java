@@ -28,6 +28,7 @@ public class DynScanTransformer implements ClassFileTransformer {
 //        classLoadingInfo.addClassLoadingInfoToBeanList(className, protectionDomain.getCodeSource().getLocation().toString(), dateFormat.format(new Date()));
         LoadedClassDetail loadedClass = new LoadedClassDetail(dateFormat.format(new Date()), className, protectionDomain.getCodeSource().getLocation().toString());
         classLoadingInfo.addClassToBeanList(loadedClass.toString());
+        System.out.println(loadedClass);
 //        /******* UNCOMMENT TO SET PRINTSTREAM TO FILE, FOR PRINTING LOGS OF WEBLOGIC SERVERS *******/
 //        try {
 //            File file = new File("/home/opc/Dynscan.txt");
